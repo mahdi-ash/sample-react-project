@@ -31,8 +31,23 @@ class Sidebar extends Component {
         }
       ]
     */
-
-    const items = [];
+//TODO: Read from Redux Store
+    const items = [
+        {
+            id: 1,
+            name: "Cypress Provincial Park",
+            items: [
+                {
+                    id: 1,
+                    name: 'East'
+                },
+                {
+                    id: 2,
+                    name: 'West'
+                }
+            ]
+        }
+    ];
 
     return <List items={ items } onClickSubitem={ this.props.centerMapOnSite } />
   }
