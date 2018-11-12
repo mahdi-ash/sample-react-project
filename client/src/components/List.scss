@@ -1,0 +1,27 @@
+ul {
+  cursor: pointer;
+  list-style-type: none;
+  background-color: lightgray;
+  padding: 0;
+  margin: 0;
+}
+
+li span {
+  padding: 20px 15px 20px;
+  display: block;
+}
+
+li > span:hover {
+  background-color: white;
+}
+
+.levelOne {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.levelTwo {
+  display: none;
+  font-weight: normal;
+  font-size: 1em;
+}

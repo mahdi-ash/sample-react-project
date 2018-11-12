@@ -46,6 +46,20 @@ class Sidebar extends Component {
                     name: 'West'
                 }
             ]
+        },
+        {
+            id: 2,
+            name: "aaaaaaaa Provincial Park",
+            items: [
+                {
+                    id: 1,
+                    name: 'aa East'
+                },
+                {
+                    id: 2,
+                    name: 'aa West'
+                }
+            ]
         }
     ];
 
