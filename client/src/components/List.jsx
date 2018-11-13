@@ -24,8 +24,8 @@ class List extends Component {
                     return <li key={item.id}>
                         <span onClick={() => this.onClickMainItem(item.id)}>{item.name}
                         </span>
-                        <ul className={styles.levelTwo,
-                            this.state.activeItem==item.id?styles.show:styles.hidden}>
+                        <ul className={[styles.levelTwo,
+                            this.state.activeItem==item.id?styles.show:styles.hidden].join(' ')}>
                             {/*Iterating the array for second level items*/}
                             {item.items.map(function (item) {
                                 return <li key={item.id}>
