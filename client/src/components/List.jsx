@@ -32,7 +32,7 @@ class List extends Component {
                         <span onClick={() => this.onClickMainItem(item.id)}>{item.name}
                         </span>
                         <ul className={[styles.levelTwo,
-                            /*Deciding which class to apply based on last status of main items*/
+                            //Deciding which class to apply based on last status of main items
                             this.state.activeItems.includes(item.id) ? styles.show : styles.hidden].join(' ')}>
                             {/*Iterating the array for second level items*/}
                             {item.items.map(function (item) {

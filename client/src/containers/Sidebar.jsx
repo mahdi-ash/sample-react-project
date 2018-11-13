@@ -1,81 +1,51 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
-import { getProjects, getSites } from '../model';
+import {getProjects, getSites} from '../model';
 
-import { centerMapOnSite } from '../model/map';
+import {centerMapOnSite} from '../model/map';
 
 import List from '../components/List';
 
 class Sidebar extends Component {
-  render() {
-    /*
-      Data should be an array of items. Each item also has items that represent the sub menu. Use the data from the redux store being passed in as props.
 
-      The structure of the data is:
+    readMenuData() {
+        let items = [];
 
-      [
-        {
-          id: 1,
-          name: "Cypress Provincial Park",
-          items: [
-            {
-              id: 1,
-              name: 'East'
-            },
-            {
-              id: 2,
-              name: 'West'
-            }
-          ]
-        }
-      ]
-    */
-//TODO: Read from Redux Store
-    const items = [
-        {
-            id: 1,
-            name: "Cypress Provincial Park",
-            items: [
-                {
-                    id: 1,
-                    name: 'East'
-                },
-                {
-                    id: 2,
-                    name: 'West'
-                }
-            ]
-        },
-        {
-            id: 2,
-            name: "aaaaaaaa Provincial Park",
-            items: [
-                {
-                    id: 1,
-                    name: 'aa East'
-                },
-                {
-                    id: 2,
-                    name: 'aa West'
-                }
-            ]
-        }
-    ];
+        //Iterating projects to make top level items for menu
+        this.props.projects.map(function (project) {
+            let id = project.id, name = project.name, sites = [];
 
-    return <List items={ items } onClickSubitem={ this.props.centerMapOnSite } />
-  }
+            /*
+            Iterating site ids inside each project and finding corresponding data in sites
+            to make sub items for menu
+            */
+            project.sites.map(function (siteId) {
+                let matchedSite = this.props.sites.filter(site => site.id == siteId);
+                if (matchedSite[0]) //Making sure that site id match any site in sites
+                    sites.push({id: matchedSite[0].id, name: matchedSite[0].name});
+            }, this);
+            items.push({id: project.id, name: project.name, items: sites});
+
+        }, this);
+        return items;
+    }
+
+    render() {
+        const items = this.readMenuData();
+        return <List items={items} onClickSubitem={this.props.centerMapOnSite}/>
+    }
 }
 
 function mapStateToProps(state) {
-  return {
-    projects: getProjects(state),
-    sites: getSites(state)
-  };
+    return {
+        projects: getProjects(state),
+        sites: getSites(state)
+    };
 }
 
 const mapDispatchToProps = {
-  centerMapOnSite
+    centerMapOnSite
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
