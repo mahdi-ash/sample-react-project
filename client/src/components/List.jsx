@@ -2,22 +2,43 @@ import React, {Component} from 'react';
 
 import styles from './List.scss';
 
-export default function List(props) {
-    //TODO: Needs to be more organized
-    return (
-        <ul className={styles.levelOne}>
-            {/*Iterating the array for top level items to construct the menus*/}
-            {props.items.map(function (item,index) {
-                return <li key={index}><span>{item.name}</span>
-                    <ul className={styles.levelTwo}>
-                        {item.items.map(function (item,index) {
-                            return <li key={index}><span>{item.name}</span>
-                            </li>
-                        })}
-                    </ul>
-                </li>
-            })}
+class List extends Component {
 
-        </ul>
-    )
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeItem: null
+        }
+    }
+
+    onClickMainItem(id) {
+        this.setState({ activeItem: id});
+    }
+
+    //TODO: Needs to be more organized
+    render() {
+        return (
+            <ul className={styles.levelOne}>
+                {/*Iterating the array for top level items to construct the menu*/}
+                {this.props.items.map(function (item) {
+                    return <li key={item.id}>
+                        <span onClick={() => this.onClickMainItem(item.id)}>{item.name}
+                        </span>
+                        <ul className={styles.levelTwo,
+                            this.state.activeItem==item.id?styles.show:styles.hidden}>
+                            {/*Iterating the array for second level items*/}
+                            {item.items.map(function (item) {
+                                return <li key={item.id}>
+                                    <span onClick={() => this.props.onClickSubitem(item.id)}>{item.name}
+                                    </span>
+                                </li>
+                            }, this)}
+                        </ul>
+                    </li>
+                }, this)}
+            </ul>
+        )
+    }
 }
+
+export default List;

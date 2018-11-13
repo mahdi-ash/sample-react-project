@@ -21,7 +21,14 @@ li > span:hover {
 }
 
 .levelTwo {
-  display: none;
   font-weight: normal;
   font-size: 1em;
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: inline;
 }
