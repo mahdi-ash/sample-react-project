@@ -7,12 +7,19 @@ class List extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeItem: null
+            activeItems: [],
         }
     }
 
     onClickMainItem(id) {
-        this.setState({ activeItem: id});
+        let items = this.state.activeItems.slice();
+
+        if (items.includes(id))
+            items = items.filter(item => item != id);
+        else
+            items.push(id);
+
+        this.setState({activeItems: items});
     }
 
     //TODO: Needs to be more organized
@@ -25,7 +32,8 @@ class List extends Component {
                         <span onClick={() => this.onClickMainItem(item.id)}>{item.name}
                         </span>
                         <ul className={[styles.levelTwo,
-                            this.state.activeItem==item.id?styles.show:styles.hidden].join(' ')}>
+                            /*Deciding which class to apply based on last status of main items*/
+                            this.state.activeItems.includes(item.id) ? styles.show : styles.hidden].join(' ')}>
                             {/*Iterating the array for second level items*/}
                             {item.items.map(function (item) {
                                 return <li key={item.id}>
