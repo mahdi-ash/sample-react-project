@@ -14,7 +14,8 @@ class Sidebar extends Component {
 
         //Iterating projects to make top level items for menu
         this.props.projects.map(function (project) {
-            let id = project.id, name = project.name, sites = [];
+
+            let sites = [];
 
             /*
             Iterating site ids inside each project and finding corresponding data in sites
@@ -22,7 +23,7 @@ class Sidebar extends Component {
             */
             project.sites.map(function (siteId) {
                 let matchedSite = this.props.sites.filter(site => site.id == siteId);
-                if (matchedSite[0]) //Making sure that site id match any site in sites
+                if (matchedSite[0]) //Making sure that site id matches a site in sites
                     sites.push({id: matchedSite[0].id, name: matchedSite[0].name});
             }, this);
             items.push({id: project.id, name: project.name, items: sites});
