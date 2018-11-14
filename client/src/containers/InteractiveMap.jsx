@@ -58,16 +58,17 @@ class InteractiveMap extends Component {
         this.getCurrentSiteTreesData();
     }
 
-
+    /*
+    Makes an array of point featured along with their height properties
+     */
     makePointsArray() {
         let points = [];
         if (this.state.treesBySites[this.props.currentSite.id]) {
-
             this.state.treesBySites[this.props.currentSite.id].map(function (treeData) {
-                    points.push([treeData.long, treeData.lat]);
+                    points.push(turf.point([treeData.long, treeData.lat], {"height": treeData.height}));
+
                 }
             );
-            console.log(points);
 
         }
         return points;
@@ -87,7 +88,7 @@ class InteractiveMap extends Component {
 
         const backgroundFeature = turf.polygon(boundaries, {name: 'Background Area'});
 
-        const TreesFeatures = turf.multiPoint(this.makePointsArray());
+        const TreesFeatures = turf.featureCollection(this.makePointsArray());
 
         return (
             <Map {...this.props}>
@@ -96,6 +97,7 @@ class InteractiveMap extends Component {
                     <GeoJSON id="background-box" data={backgroundFeature}/>
                     <GeoJSON id="tree-points" data={TreesFeatures}/>
                 </Sources>
+
                 <Layer
                     id="bounding-box"
                     type="line"
@@ -105,21 +107,29 @@ class InteractiveMap extends Component {
                     }}
                     source="bounding-box"
                 />
+
                 <Layer
                     id="background-box"
                     type="fill"
                     paint={{
-                        'fill-opacity': 0.1,
+                        'fill-opacity': 0.2,
                         'fill-color': '#fff'
                     }}
                     source="background-box"
                 />
+
                 <Layer
                     id="tree-points"
                     type="circle"
                     paint={{
                         'circle-radius': 4,
-                        'circle-color': '#fff'
+                        'circle-color': [
+                            'interpolate',
+                            ['linear'],
+                            ['get', 'height'],
+                            0, 'white',
+                            70, 'darkgreen'
+                        ]
                     }}
                     source="tree-points"
                 />
